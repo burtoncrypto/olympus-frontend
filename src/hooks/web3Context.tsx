@@ -14,6 +14,10 @@ function getTestnetURI() {
   return EnvHelper.alchemyTestnetURI;
 }
 
+function getTestnetWsURI() {
+  return EnvHelper.alchemyTestnetWsURI;
+}
+
 /**
  * determine if in IFrame for Ledger Live
  */
@@ -37,16 +41,23 @@ function getMainnetURI(): string {
   return allURIs[randomIndex];
 }
 
+function getMainnetWsURI(): string {
+  return EnvHelper.alchemyMainnetWsURI;
+}
+
 /*
   Types
 */
 type onChainProvider = {
   connect: () => void;
   disconnect: () => void;
+  hasCachedProvider: () => Boolean;
   provider: JsonRpcProvider;
+  wsProvider: WebSocketProvider;
   address: string;
   connected: Boolean;
   web3Modal: Web3Modal;
+  chainID: number;
 };
 
 export type Web3ContextData = {
@@ -81,8 +92,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
+  const [wsUri, setWsUri] = useState(getMainnetWsURI());
 
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
+  const [wsProvider, setWsProvider] = useState<WebSocketProvider>(new WebSocketProvider(wsUri));
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -192,8 +205,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal }),
-    [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
+    () => ({ connect, disconnect, hasCachedProvider, provider, wsProvider, connected, address, chainID, web3Modal }),
+    [connect, disconnect, hasCachedProvider, provider, wsProvider, connected, address, chainID, web3Modal],
   );
 
   useEffect(() => {

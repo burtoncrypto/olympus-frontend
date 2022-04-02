@@ -1,5 +1,6 @@
 import { EPOCH_INTERVAL, BLOCK_RATE_SECONDS, addresses } from "../constants";
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
+import BN from "bignumber.js";
 import axios from "axios";
 import { abi as PairContract } from "../abi/PairContract.json";
 import { abi as RedeemHelperAbi } from "../abi/RedeemHelper.json";
@@ -8,15 +9,16 @@ import { SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
 import { ReactComponent as SOhmImg } from "../assets/tokens/token_sOHM.svg";
 
-import { ohm_dai } from "./AllBonds";
+import { squid_weth } from "./AllBonds";
 import { JsonRpcSigner, StaticJsonRpcProvider } from "@ethersproject/providers";
 import { IBaseAsyncThunk } from "src/slices/interfaces";
 
 // NOTE (appleseed): this looks like an outdated method... we now have this data in the graph (used elsewhere in the app)
 export async function getMarketPrice({ networkID, provider }: IBaseAsyncThunk) {
-  const ohm_dai_address = ohm_dai.getAddressForReserve(networkID);
+  const ohm_dai_address = squid_weth.getAddressForReserve(networkID);
   const pairContract = new ethers.Contract(ohm_dai_address, PairContract, provider);
   const reserves = await pairContract.getReserves();
+  // TODO: Might need to change this accroding to SQUID address.
   const marketPrice = reserves[1] / reserves[0];
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
@@ -43,9 +45,24 @@ export function formatCurrency(c: number, precision = 0) {
   }).format(c);
 }
 
-export function trim(number = 0, precision = 0) {
+export function formatEth(c: number, precision = 0) {
+  return "Ξ " + commify(new BN(c).toFixed(precision));
+}
+
+export function commify(n: string | number) {
+  const parts = n.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+export function trim(number: any = 0, precision = 0) {
   // why would number ever be undefined??? what are we trimming?
-  const array = number.toString().split(".");
+  if (isNaN(number)) return number.toString();
+  if (typeof number !== "number") {
+    return number.toString();
+  }
+
+  const array = number.toFixed(precision + 1).split(".");
   if (array.length === 1) return number.toString();
   if (precision === 0) return array[0].toString();
 
@@ -56,7 +73,8 @@ export function trim(number = 0, precision = 0) {
 }
 
 export function getRebaseBlock(currentBlock: number) {
-  return currentBlock + EPOCH_INTERVAL - (currentBlock % EPOCH_INTERVAL);
+  const c = currentBlock - 1948;
+  return c + EPOCH_INTERVAL - (c % EPOCH_INTERVAL) + 1948;
 }
 
 export function secondsUntilBlock(startBlock: number, endBlock: number) {
@@ -189,4 +207,8 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
     minutes,
     seconds,
   };
+};
+
+export const formatEther = (amount: BigNumber) => {
+  return new BN(ethers.utils.formatEther(amount));
 };

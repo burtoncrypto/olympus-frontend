@@ -3,34 +3,34 @@ import fonts from "./fonts";
 import commonSettings from "./global.js";
 
 const lightTheme = {
-  color: "#253449",
+  color: "#FFFFFF",
   gold: "#F8CC82",
   gray: "#A3A3A3",
-  blueish_gray: "#768299",
+  blueish_gray: "#B5B5B5",
   textHighlightColor: "#93AEBC", // "#F4D092",
-  backgroundColor: "#AFCDE9",
+  backgroundColor: "#212427",
   // background:
   // "radial-gradient(circle at 25% 0%, rgba(227,255,240,.5), rgba(227,255,240,0) 50%), radial-gradient(circle at 80% 80%, rgba(131,165,203,.5), rgba(131,165,203,0) 50%)",
-  background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
-  paperBg: "rgba(255, 255, 255, 0.6)",
-  modalBg: "#FAFAFAEF",
-  popoverBg: "rgba(255, 255, 255, 0.95)",
-  menuBg: "rgba(255, 255, 255, 0.5)",
+  background: "none",
+  paperBg: "#282C31",
+  modalBg: "#282C31",
+  popoverBg: "#282C31",
+  menuBg: "#282C31",
   backdropBg: "rgba(200, 200, 200, 0.4)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
   activeLinkSvgColor: "invert(64%) sepia(11%) saturate(934%) hue-rotate(157deg) brightness(90%) contrast(86%)",
   // primaryButtonBG: "#759AAE",
-  primaryButtonBG: "#93AEBC",
-  primaryButtonHoverBG: "#759AAE",
+  primaryButtonBG: "#7F7FD5",
+  primaryButtonHoverBG: "#8181fd",
   // these need fixing
-  primaryButtonHoverColor: "#333333",
+  primaryButtonHoverColor: "#ffffff",
   secondaryButtonHoverBG: "rgba(54, 56, 64, 1)",
   outlinedPrimaryButtonHoverBG: "#F8CC82",
   outlinedPrimaryButtonHoverColor: "#333333",
   outlinedSecondaryButtonHoverBG: "#FCFCFC",
   outlinedSecondaryButtonHoverColor: "#333333",
-  containedSecondaryButtonHoverBG: "#33333333",
+  containedSecondaryButtonHoverBG: "#3A3F46",
   graphStrokeColor: "rgba(37, 52, 73, .2)",
 };
 
@@ -61,7 +61,7 @@ export const light = responsiveFontSizes(
         graphStrokeColor: lightTheme.graphStrokeColor,
       },
       typography: {
-        fontFamily: "Square",
+        fontFamily: "Poppins, sans-serif",
       },
       props: {
         MuiSvgIcon: {
@@ -88,12 +88,12 @@ export const light = responsiveFontSizes(
             },
             "&.ohm-menu": {
               backgroundColor: lightTheme.menuBg,
-              backdropFilter: "blur(33px)",
+              backdropFilter: "blur(3px)",
             },
             "&.ohm-popover": {
               backgroundColor: lightTheme.popoverBg,
               color: lightTheme.color,
-              backdropFilter: "blur(15px)",
+              backdropFilter: "blur(3px)",
             },
           },
         },
@@ -238,18 +238,20 @@ export const light = responsiveFontSizes(
             },
           },
           outlinedPrimary: {
-            color: lightTheme.primaryButtonBG,
-            borderColor: lightTheme.primaryButtonBG,
+            color: lightTheme.color,
+            borderColor: lightTheme.color,
+            opacity: "0.7",
             "&:hover": {
-              color: lightTheme.gold,
-              backgroundColor: lightTheme.primaryButtonHoverBG,
-              borderColor: lightTheme.primaryButtonBG,
+              color: lightTheme.color,
+              backgroundColor: "transparent",
+              borderColor: lightTheme.color,
+              opacity: "1",
             },
             "@media (hover:none)": {
-              color: lightTheme.primaryButtonBG,
+              color: lightTheme.color,
               borderColor: lightTheme.primaryButtonBG,
               "&:hover": {
-                color: `${lightTheme.gold} !important`,
+                color: `${lightTheme.primaryButtonHoverColor} !important`,
                 backgroundColor: `${lightTheme.primaryButtonBG} !important`,
               },
             },

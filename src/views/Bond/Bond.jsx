@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { formatCurrency } from "../../helpers";
+import { formatCurrency, formatEth } from "../../helpers";
 import { Backdrop, Box, Fade, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -58,26 +58,28 @@ function Bond({ bond }) {
                 onSlippageChange={onSlippageChange}
                 onRecipientAddressChange={onRecipientAddressChange}
               />
-
-              <Box direction="row" className="bond-price-data-row">
-                <div className="bond-price-data">
-                  <Typography variant="h5" color="textSecondary">
-                    Bond Price
-                  </Typography>
-                  <Typography variant="h3" className="price" color="primary">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.bondPrice, 2)}
-                  </Typography>
-                </div>
-                <div className="bond-price-data">
-                  <Typography variant="h5" color="textSecondary">
-                    Market Price
-                  </Typography>
-                  <Typography variant="h3" color="primary" className="price">
-                    {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
-                  </Typography>
-                </div>
-              </Box>
-
+              <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero" spacing={2}>
+                <Grid item xs={6}>
+                  <div className="bond-price-data">
+                    <Typography variant="h5" color="textSecondary">
+                      Bond Price
+                    </Typography>
+                    <Typography variant="h3" className="price" color="primary">
+                      {isBondLoading ? <Skeleton /> : formatEth(bond.bondPrice, 2)}
+                    </Typography>
+                  </div>
+                </Grid>
+                <Grid item xs={6}>
+                  <div className="bond-price-data">
+                    <Typography variant="h5" color="textSecondary">
+                      Market Price
+                    </Typography>
+                    <Typography variant="h3" color="primary" className="price">
+                      {isBondLoading ? <Skeleton /> : formatEth(bond.marketPrice, 2)}
+                    </Typography>
+                  </div>
+                </Grid>
+              </Grid>
               <Tabs
                 centered
                 value={view}

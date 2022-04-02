@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
+function TopBar({ theme, handleDrawerToggle }) {
   const classes = useStyles();
   const isVerySmallScreen = useMediaQuery("(max-width: 355px)");
 
@@ -51,8 +51,6 @@ function TopBar({ theme, toggleTheme, handleDrawerToggle }) {
           {!isVerySmallScreen && <OhmMenu />}
 
           <ConnectMenu theme={theme} />
-
-          <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         </Box>
       </Toolbar>
     </AppBar>

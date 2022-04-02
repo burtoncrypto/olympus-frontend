@@ -64,19 +64,19 @@ function RebaseTimer() {
 
   return (
     <Box className="rebase-timer">
-      <Typography variant="body2">
-        {currentBlock ? (
-          secondsToRebase > 0 ? (
-            <>
-              <strong>{rebaseString}</strong> to next rebase
-            </>
-          ) : (
-            <strong>rebasing</strong>
-          )
+      {currentBlock ? (
+        secondsToRebase > 0 ? (
+          <>
+            <Typography variant="subtitle1">
+              <span style={{ color: "#7F7FD5" }}>{rebaseString}</span> to next rebase
+            </Typography>
+          </>
         ) : (
-          <Skeleton width="155px" />
-        )}
-      </Typography>
+          <Typography variant="subtitle1">rebasing </Typography>
+        )
+      ) : (
+        <Skeleton width="155px" />
+      )}
     </Box>
   );
 }

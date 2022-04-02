@@ -10,7 +10,7 @@
 html,
 body,
 #root {
-  font-family: "Square";
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
@@ -29,7 +29,7 @@ body {
   flex-direction: column;
   z-index: 1;
   background-size: cover;
-  font-family: "Square";
+  font-family: "Poppins", sans-serif;
   overflow: hidden;
   transition: all ease 0.33ms;
 }
@@ -44,6 +44,7 @@ body {
     width: 100%;
     min-height: 33px;
     margin-bottom: 10px;
+    border-bottom: none;
     h5 {
       font-weight: 600 !important;
     }
@@ -87,4 +88,38 @@ input[type="number"] {
 
 a:hover svg {
   color: inherit;
+}
+
+.MuiButton-label {
+  font-size: 14px;
+}
+.MuiButton-root {
+  padding: 10px 20px !important;
+  border-radius: 999px !important;
+  height: auto !important;
+}
+.MuiTypography-h6 {
+  font-weight: bold !important;
+}
+
+.MuiTypography-body2 {
+  line-height: 18px !important;
+}
+.MuiTypography-body1 {
+  line-height: 18px !important;
+}
+
+@media (max-width: 599px) {
+  .MuiPaper-root.ohm-card {
+    padding: 10px 15px 15px 15px !important;
+    margin: 0;
+  }
+}
+.MuiTab-wrapper {
+  padding-bottom: 20px;
+  min-width: 100px;
+}
+.PrivateTabIndicator-colorPrimary-16,
+.PrivateTabIndicator-colorPrimary-15 {
+  background-color: #7f7fd5 !important;
 }

@@ -8,22 +8,22 @@ const externalUrls = [
   {
     title: "Forum",
     url: "https://forum.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={ForumIcon} />,
+    icon: <SvgIcon color="primary" component={ForumIcon} style={{ fill: "none" }} />,
   },
   {
     title: "Governance",
     url: "https://vote.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={GovIcon} />,
+    icon: <SvgIcon color="primary" component={GovIcon} style={{ fill: "none" }} />,
   },
   {
     title: "Docs",
     url: "https://docs.olympusdao.finance/",
-    icon: <SvgIcon color="primary" component={DocsIcon} />,
+    icon: <SvgIcon color="primary" component={DocsIcon} style={{ fill: "none" }} />,
   },
   {
     title: "Feedback",
     url: "https://olympusdao.canny.io/",
-    icon: <SvgIcon color="primary" component={FeedbackIcon} />,
+    icon: <SvgIcon color="primary" component={FeedbackIcon} style={{ fill: "none" }} />,
   },
 ];
 

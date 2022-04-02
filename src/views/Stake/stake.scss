@@ -11,7 +11,7 @@
   }
 
   .stake-tab-buttons {
-    margin-bottom: 0.25rem;
+    margin-bottom: 20px;
   }
 
   .stake-table-panel,
@@ -33,10 +33,6 @@
   .ohm-card.secondary .card-header {
     min-height: 33px !important;
     height: 20px;
-  }
-  .stake-note {
-    text-align: center;
-    font-style: italic;
   }
 }
 
@@ -169,7 +165,8 @@
 }
 
 .staking-area {
-  margin: 13px 10px 13px 10px;
+  margin: auto;
+  max-width: 500px;
 }
 
 .stake-lp-button {
@@ -233,4 +230,14 @@
       margin-bottom: 15px;
     }
   }
+}
+.MuiButton-contained.Mui-disabled {
+  background: #8f8f8f !important;
+  color: #c1c3cb !important;
+}
+.MuiOutlinedInput-root {
+  border-radius: 999px !important;
+}
+.MuiOutlinedInput-root .MuiButton-label {
+  color: #7f7fd5 !important;
 }

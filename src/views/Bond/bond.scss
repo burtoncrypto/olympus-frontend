@@ -6,9 +6,9 @@
 
   @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
     .MuiBackdrop-root {
-      background: rgba(100, 100, 100, 0.1) !important;
-      backdrop-filter: blur(33px) !important;
-      -webkit-backdrop-filter: blur(33px) !important;
+      background: rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: blur(3px) !important;
+      -webkit-backdrop-filter: blur(3px) !important;
       .ohm-card {
         opacity: 1 !important;
         height: auto;
@@ -75,6 +75,12 @@
     h3.price {
       font-weight: 600 !important;
     }
+  }
+  .bond-price-data {
+    background: #3a3f46;
+    border-radius: 10px;
+    padding:20px;
+    text-align: center;
   }
 
   .ohm-input {

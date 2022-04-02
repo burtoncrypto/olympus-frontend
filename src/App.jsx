@@ -29,6 +29,7 @@ import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
 import "./style.scss";
+import Landing from "./views/Landing/Landing";
 
 // 😬 Sorry for all the console logging
 const DEBUG = false;
@@ -77,7 +78,7 @@ function App() {
   useGoogleAnalytics();
   useSegmentAnalytics();
   const dispatch = useDispatch();
-  const [theme, toggleTheme, mounted] = useTheme();
+  const [theme] = useTheme();
   const location = useLocation();
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -193,7 +194,7 @@ function App() {
       {/* {isAppLoading && <LoadingSplash />} */}
       <div className={`app ${isSmallerScreen && "tablet"} ${isSmallScreen && "mobile"} ${theme}`}>
         <Messages />
-        <TopBar theme={theme} toggleTheme={toggleTheme} handleDrawerToggle={handleDrawerToggle} />
+        <TopBar theme={theme} handleDrawerToggle={handleDrawerToggle} />
         <nav className={classes.drawer}>
           {isSmallerScreen ? (
             <NavDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -204,9 +205,9 @@ function App() {
 
         <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
           <Switch>
-            <Route exact path="/dashboard">
-              <TreasuryDashboard />
-            </Route>
+            {/*<Route exact path="/dashboard">*/}
+            {/*  <TreasuryDashboard />*/}
+            {/*</Route>*/}
 
             <Route exact path="/">
               <Redirect to="/stake" />
@@ -214,10 +215,6 @@ function App() {
 
             <Route path="/stake">
               <Stake />
-            </Route>
-
-            <Route path="/33-together">
-              <PoolTogether />
             </Route>
 
             <Route path="/bonds">

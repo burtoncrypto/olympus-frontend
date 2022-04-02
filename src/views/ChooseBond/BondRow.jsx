@@ -1,4 +1,4 @@
-import { trim } from "../../helpers";
+import { formatEth, trim } from "../../helpers";
 import BondLogo from "../../components/BondLogo";
 import { Box, Button, Link, Paper, Typography, TableRow, TableCell, SvgIcon, Slide } from "@material-ui/core";
 import { ReactComponent as ArrowUp } from "../../assets/icons/arrow-up.svg";
@@ -34,7 +34,7 @@ export function BondDataCard({ bond }) {
         <div className="data-row">
           <Typography>Price</Typography>
           <Typography className="bond-price">
-            <>{isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}</>
+            <>{isBondLoading ? <Skeleton width="50px" /> : formatEth(bond.bondPrice, 2)}</>
           </Typography>
         </div>
 
@@ -45,18 +45,7 @@ export function BondDataCard({ bond }) {
 
         <div className="data-row">
           <Typography>Purchased</Typography>
-          <Typography>
-            {isBondLoading ? (
-              <Skeleton width="80px" />
-            ) : (
-              new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                maximumFractionDigits: 0,
-                minimumFractionDigits: 0,
-              }).format(bond.purchased)
-            )}
-          </Typography>
+          <Typography>{isBondLoading ? <Skeleton width="80px" /> : formatEth(bond.purchased)}</Typography>
         </div>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary" fullWidth>
@@ -91,25 +80,11 @@ export function BondTableData({ bond }) {
       </TableCell>
       <TableCell align="left">
         <Typography>
-          <>
-            <span className="currency-icon">$</span>
-            {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
-          </>
+          <>{isBondLoading ? <Skeleton width="50px" /> : formatEth(bond.bondPrice, 2)}</>
         </Typography>
       </TableCell>
       <TableCell align="left">{isBondLoading ? <Skeleton /> : `${trim(bond.bondDiscount * 100, 2)}%`}</TableCell>
-      <TableCell align="right">
-        {isBondLoading ? (
-          <Skeleton />
-        ) : (
-          new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD",
-            maximumFractionDigits: 0,
-            minimumFractionDigits: 0,
-          }).format(bond.purchased)
-        )}
-      </TableCell>
+      <TableCell align="right">{isBondLoading ? <Skeleton /> : formatEth(bond.purchased)}</TableCell>
       <TableCell>
         <Link component={NavLink} to={`/bonds/${bond.name}`}>
           <Button variant="outlined" color="primary">

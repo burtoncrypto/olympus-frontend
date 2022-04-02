@@ -10,6 +10,8 @@ export class EnvHelper {
    */
   static env = process.env;
   static alchemyTestnetURI = `https://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
+  static alchemyTestnetWsURI = `wss://eth-rinkeby.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_TESTNET_ALCHEMY}`;
+  static alchemyMainnetWsURI = `wss:///eth-mainnet.alchemyapi.io/v2/${EnvHelper.env.REACT_APP_ALCHEMY_IDS}`;
   static whitespaceRegex = /\s+/;
 
   /**
