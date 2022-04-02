@@ -49,7 +49,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
       dispatch(error("Please enter a valid value!"));
     } else if (bond.interestDue > 0 || bond.pendingPayout > 0) {
       const shouldProceed = window.confirm(
-        "You have an existing bond. Bonding will reset your vesting period and forfeit rewards. We recommend claiming rewards first or using a fresh wallet. Do you still want to proceed?",
+        "Only one capsule can be held in one wallet at a time. If attempting to bond an additional on squid.xyz, then your vesting period will be extended. We recommend claiming rewards first but if you choose not to it will simply be extended.",
       );
       if (shouldProceed) {
         await dispatch(
@@ -134,12 +134,10 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <>
             {!hasAllowance() ? (
               <div className="help-text">
-                <em>
-                  <Typography variant="body1" align="center" color="textSecondary">
-                    First time bonding <b>{bond.displayName}</b>? <br /> Please approve Olympus Dao to use your{" "}
-                    <b>{bond.displayName}</b> for bonding.
-                  </Typography>
-                </em>
+                <Typography variant="body1" align="left" color="textSecondary">
+                  First time bonding <b>{bond.displayName}</b>? <br /> Please approve Squid Dao to use your{" "}
+                  <b>{bond.displayName}</b> for bonding.
+                </Typography>
               </div>
             ) : (
               <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
@@ -198,7 +196,7 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
                 <Skeleton width="100px" />
               ) : (
                 <>
-                  {trim(bond.balance, 4)} {displayUnits}
+                  {trim(bond.balance, 9)} {displayUnits}
                 </>
               )}
             </Typography>
@@ -207,14 +205,14 @@ function BondPurchase({ bond, slippage, recipientAddress }) {
           <div className={`data-row`}>
             <Typography>You Will Get</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 9) || "0"} SQUID`}
             </Typography>
           </div>
 
           <div className={`data-row`}>
             <Typography>Max You Can Buy</Typography>
             <Typography id="bond-value-id" className="price-data">
-              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 4) || "0"} OHM`}
+              {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice, 9) || "0"} SQUID`}
             </Typography>
           </div>
 

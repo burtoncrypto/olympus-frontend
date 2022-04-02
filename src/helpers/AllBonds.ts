@@ -8,11 +8,13 @@ import { ReactComponent as OhmFraxImg } from "src/assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as OhmLusdImg } from "src/assets/tokens/OHM-LUSD.svg";
 import { ReactComponent as wETHImg } from "src/assets/tokens/wETH.svg";
 import { ReactComponent as LusdImg } from "src/assets/tokens/LUSD.svg";
+import { ReactComponent as SquidUsdtImg } from "src/assets/tokens/squid-usdt.svg";
 
 import { abi as FraxOhmBondContract } from "src/abi/bonds/OhmFraxContract.json";
 import { abi as BondOhmDaiContract } from "src/abi/bonds/OhmDaiContract.json";
 import { abi as BondOhmLusdContract } from "src/abi/bonds/OhmLusdContract.json";
 import { abi as DaiBondContract } from "src/abi/bonds/DaiContract.json";
+import { abi as WethBondContract } from "src/abi/bonds/WethContract.json";
 import { abi as ReserveOhmLusdContract } from "src/abi/reserves/OhmLusd.json";
 import { abi as ReserveOhmDaiContract } from "src/abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "src/abi/reserves/OhmFrax.json";
@@ -32,6 +34,24 @@ export const dai = new StableBond({
     [NetworkID.Mainnet]: {
       bondAddress: "0x575409F8d77c12B05feD8B455815f0e54797381c",
       reserveAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
+    },
+    [NetworkID.Testnet]: {
+      bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
+      reserveAddress: "0xB2180448f8945C8Cc8AE9809E67D6bd27d8B2f2C",
+    },
+  },
+});
+
+export const weth = new StableBond({
+  name: "weth",
+  displayName: "WETH",
+  bondToken: "WETH",
+  bondIconSvg: wETHImg,
+  bondContractABI: WethBondContract,
+  networkAddrs: {
+    [NetworkID.Mainnet]: {
+      bondAddress: "0x8f9b609eA2179262A7A672553D6F78ec83215EE9",
+      reserveAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     },
     [NetworkID.Testnet]: {
       bondAddress: "0xDea5668E815dAF058e3ecB30F645b04ad26374Cf",
@@ -103,25 +123,25 @@ export const eth = new CustomBond({
   },
 });
 
-export const ohm_dai = new LPBond({
-  name: "ohm_dai_lp",
-  displayName: "OHM-DAI LP",
-  bondToken: "DAI",
-  bondIconSvg: OhmDaiImg,
+export const squid_weth = new LPBond({
+  name: "squid_eth_lp",
+  displayName: "SQUID-ETH LP",
+  bondToken: "ETH",
+  bondIconSvg: SquidUsdtImg,
   bondContractABI: BondOhmDaiContract,
   reserveContract: ReserveOhmDaiContract,
   networkAddrs: {
     [NetworkID.Mainnet]: {
-      bondAddress: "0x956c43998316b6a2F21f89a1539f73fB5B78c151",
-      reserveAddress: "0x34d7d7Aaf50AD4944B70B320aCB24C95fa2def7c",
+      bondAddress: "0x5ab2493d75cbccd0762417839c83ab6b567d2f71",
+      reserveAddress: "0xfad704847967d9067df7a60910399155fca43fe8",
     },
     [NetworkID.Testnet]: {
-      bondAddress: "0xcF449dA417cC36009a1C6FbA78918c31594B9377",
-      reserveAddress: "0x8D5a22Fb6A1840da602E56D1a260E56770e0bCE2",
+      bondAddress: "0xBfeB1d574ffA150715e5B24aDa194109472F74f0",
+      reserveAddress: "0x481b3bc88d1628cb3132295dcfbf33711ab7d08f",
     },
   },
   lpUrl:
-    "https://app.sushi.com/add/0x383518188c0c6d7730d91b2c03a03c837814a899/0x6b175474e89094c44da98b954eedeac495271d0f",
+    "https://app.sushi.com/add/0x21ad647b8F4Fe333212e735bfC1F36B4941E6Ad2/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
 });
 
 export const ohm_frax = new LPBond({
@@ -171,7 +191,8 @@ export const ohm_lusd = new LPBond({
 // Is it a stableCoin bond? use `new StableBond`
 // Is it an LP Bond? use `new LPBond`
 // Add new bonds to this array!!
-export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd];
+//export const allBonds = [dai, frax, eth, ohm_dai, ohm_frax, lusd, ohm_lusd];
+export const allBonds = [squid_weth, weth];
 export const allBondsMap = allBonds.reduce((prevVal, bond) => {
   return { ...prevVal, [bond.name]: bond };
 }, {});

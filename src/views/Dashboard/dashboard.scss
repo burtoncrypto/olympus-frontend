@@ -57,3 +57,8 @@
     }
   }
 }
+
+.MuiBackdrop-root{
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}

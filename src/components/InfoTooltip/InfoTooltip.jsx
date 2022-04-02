@@ -19,7 +19,7 @@ function InfoTooltip({ message }) {
         component={Info}
         onMouseOver={handleHover}
         onMouseOut={handleHover}
-        style={{ margin: "0 5px", fontSize: "1em" }}
+        style={{ margin: "0 5px", fontSize: "1em", fill: "none" }}
         className="info-icon"
       ></SvgIcon>
       <Popper id={id} open={open} anchorEl={anchorEl} placement="bottom" className="tooltip">

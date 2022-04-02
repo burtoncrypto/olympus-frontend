@@ -4,8 +4,7 @@ import { abi as OlympusStaking } from "../abi/OlympusStaking.json";
 import { abi as OlympusStakingv2 } from "../abi/OlympusStakingv2.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import { setAll, getTokenPrice, getMarketPrice } from "../helpers";
-import { NodeHelper } from "../helpers/NodeHelper";
+import { setAll, getMarketPrice } from "../helpers";
 import apollo from "../lib/apolloClient.js";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "src/store";
@@ -43,12 +42,16 @@ export const loadAppDetails = createAsyncThunk(
 
     const graphData = await apollo(protocolMetricsQuery);
 
-    if (!graphData || graphData == null) {
-      console.error("Returned a null response when querying TheGraph");
-      return;
-    }
+    // if (!graphData) {
+    //   console.error("Returned a null response when querying TheGraph");
+    //   return;
+    // }
 
-    const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    let stakingTVL;
+    if (graphData && graphData.data && graphData.data.protocolMetrics.length > 0) {
+      stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
+    }
+    // const stakingTVL = parseFloat(graphData.data.protocolMetrics[0].totalValueLocked);
     // NOTE (appleseed): marketPrice from Graph was delayed, so get CoinGecko price
     // const marketPrice = parseFloat(graphData.data.protocolMetrics[0].ohmPrice);
     let marketPrice;
@@ -63,10 +66,17 @@ export const loadAppDetails = createAsyncThunk(
       return;
     }
 
-    const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
-    const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
-    const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
-    const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
+    let marketCap, circSupply, totalSupply, treasuryMarketValue;
+    if (graphData && graphData.data && graphData.data.protocolMetrics.length > 0) {
+      marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
+      circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
+      totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+      treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
+    }
+    // const marketCap = parseFloat(graphData.data.protocolMetrics[0].marketCap);
+    // const circSupply = parseFloat(graphData.data.protocolMetrics[0].ohmCirculatingSupply);
+    // const totalSupply = parseFloat(graphData.data.protocolMetrics[0].totalSupply);
+    // const treasuryMarketValue = parseFloat(graphData.data.protocolMetrics[0].treasuryMarketValue);
     // const currentBlock = parseFloat(graphData.data._meta.block.number);
 
     if (!provider) {
@@ -167,12 +177,12 @@ export const findOrLoadMarketPrice = createAsyncThunk(
  * - updates the App.slice when it runs
  */
 const loadMarketPrice = createAsyncThunk("app/loadMarketPrice", async ({ networkID, provider }: IBaseAsyncThunk) => {
-  let marketPrice: number;
+  let marketPrice: number = 0;
   try {
     marketPrice = await getMarketPrice({ networkID, provider });
     marketPrice = marketPrice / Math.pow(10, 9);
   } catch (e) {
-    marketPrice = await getTokenPrice("olympus");
+    // marketPrice = await getTokenPrice("olympus");
   }
   return { marketPrice };
 });

@@ -11,7 +11,7 @@ module.exports = {
     },
   },
   extends: ["plugin:prettier/recommended", "prettier/react", "prettier/@typescript-eslint"],
-  plugins: ["prettier"],
+  plugins: ["prettier", "react", "react-hooks"],
   rules: {
     "prettier/prettier": ["error"],
     "import/prefer-default-export": "off",
@@ -19,6 +19,8 @@ module.exports = {
     "prefer-template": "off",
     "react/prop-types": "off",
     "react/destructuring-assignment": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "no-console": "off",
     "jsx-a11y/accessible-emoji": ["off"],
     "jsx-a11y/click-events-have-key-events": ["off"],

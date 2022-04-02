@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import {
   Box,
   Grid,
@@ -11,16 +10,15 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Zoom,
 } from "@material-ui/core";
 import { BondDataCard, BondTableData } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { formatCurrency } from "../../helpers";
+import { formatEth } from "../../helpers";
 import useBonds from "../../hooks/Bonds";
 import "./choosebond.scss";
 import { Skeleton } from "@material-ui/lab";
 import ClaimBonds from "./ClaimBonds";
-import _ from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { allBondsMap } from "src/helpers/AllBonds";
 
 function ChooseBond() {
@@ -59,47 +57,41 @@ function ChooseBond() {
 
   return (
     <div id="choose-bond-view">
-      {!isAccountLoading && !_.isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
-
-      <Zoom in={true}>
-        <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5">Bond (1,1)</Typography>
-          </Box>
-
-          <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
-            <Grid item xs={6}>
-              <Box textAlign={`${isVerySmallScreen ? "left" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
+      <div style={{ width: "100%", maxWidth: 833 }}>
+        {!isAccountLoading && !isEmpty(accountBonds) && <ClaimBonds activeBonds={accountBonds} />}
+        <Box className="card-header" style={{ marginBottom: 20 }}>
+          <Typography variant="h5" align="left">
+            Bond
+          </Typography>
+        </Box>
+        <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
+          <Grid item xs={6}>
+            <Paper className="ohm-card">
+              <Box textAlign={`${isVerySmallScreen ? "center" : "center"}`}>
+                <Typography variant="subtitle1" color="textSecondary">
                   Treasury Balance
                 </Typography>
                 <Typography variant="h4">
-                  {isAppLoading ? (
-                    <Skeleton width="180px" />
-                  ) : (
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0,
-                    }).format(treasuryBalance)
-                  )}
+                  {isAppLoading ? <Skeleton width="180px" /> : formatEth(treasuryBalance)}
                 </Typography>
               </Box>
-            </Grid>
-
-            <Grid item xs={6} className={`ohm-price`}>
-              <Box textAlign={`${isVerySmallScreen ? "right" : "center"}`}>
-                <Typography variant="h5" color="textSecondary">
-                  OHM Price
-                </Typography>
-                <Typography variant="h4">
-                  {isAppLoading ? <Skeleton width="100px" /> : formatCurrency(marketPrice, 2)}
-                </Typography>
-              </Box>
-            </Grid>
+            </Paper>
           </Grid>
 
+          <Grid item xs={6} className={`ohm-price`}>
+            <Paper className="ohm-card">
+              <Box textAlign={`${isVerySmallScreen ? "center" : "center"}`}>
+                <Typography variant="subtitle1" color="textSecondary">
+                  SQUID Price
+                </Typography>
+                <Typography variant="h4">
+                  {isAppLoading ? <Skeleton width="100px" /> : formatEth(marketPrice, 2)}
+                </Typography>
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Paper className="ohm-card">
           {!isSmallScreen && (
             <Grid container item>
               <TableContainer>
@@ -122,20 +114,20 @@ function ChooseBond() {
               </TableContainer>
             </Grid>
           )}
-        </Paper>
-      </Zoom>
 
-      {isSmallScreen && (
-        <Box className="ohm-card-container">
-          <Grid container item spacing={2}>
-            {bonds.map(bond => (
-              <Grid item xs={12} key={bond.name}>
-                <BondDataCard key={bond.name} bond={bond} />
+          {isSmallScreen && (
+            <Box className="ohm-card-container">
+              <Grid container item spacing={2}>
+                {bonds.map(bond => (
+                  <Grid item xs={12} key={bond.name}>
+                    <BondDataCard key={bond.name} bond={bond} />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-      )}
+            </Box>
+          )}
+        </Paper>
+      </div>
     </div>
   );
 }

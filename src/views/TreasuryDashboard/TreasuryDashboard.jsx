@@ -3,7 +3,7 @@ import { Paper, Grid, Typography, Box, Zoom, Container, useMediaQuery } from "@m
 import { Skeleton } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import Chart from "../../components/Chart/Chart.jsx";
-import { trim, formatCurrency } from "../../helpers";
+import { trim, formatCurrency, formatEth } from "../../helpers";
 import {
   treasuryDataQuery,
   rebasesDataQuery,
@@ -90,82 +90,61 @@ function TreasuryDashboard() {
           paddingRight: smallerScreen || verySmallScreen ? "0" : "3.3rem",
         }}
       >
-        <Box className={`hero-metrics`}>
-          <Paper className="ohm-card">
-            <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center">
-              <Box className="metric market">
-                <Typography variant="h6" color="textSecondary">
-                  Market Cap
-                </Typography>
-                <Typography variant="h5">
-                  {marketCap && formatCurrency(marketCap, 0)}
-                  {!marketCap && <Skeleton type="text" />}
-                </Typography>
-              </Box>
-
-              <Box className="metric price">
-                <Typography variant="h6" color="textSecondary">
-                  OHM Price
-                </Typography>
-                <Typography variant="h5">
-                  {/* appleseed-fix */}
-                  {marketPrice ? formatCurrency(marketPrice, 2) : <Skeleton type="text" />}
-                </Typography>
-              </Box>
-
-              <Box className="metric wsoprice">
-                <Typography variant="h6" color="textSecondary">
-                  wsOHM Price
-                  <InfoTooltip
-                    message={
-                      "wsOHM = sOHM * index\n\nThe price of wsOHM is equal to the price of OHM multiplied by the current index"
-                    }
-                  />
-                </Typography>
-
-                <Typography variant="h5">
-                  {wsOhmPrice ? formatCurrency(wsOhmPrice, 2) : <Skeleton type="text" />}
-                </Typography>
-              </Box>
-
-              <Box className="metric circ">
-                <Typography variant="h6" color="textSecondary">
-                  Circulating Supply (total)
-                </Typography>
-                <Typography variant="h5">
-                  {circSupply && totalSupply ? (
-                    parseInt(circSupply) + " / " + parseInt(totalSupply)
-                  ) : (
-                    <Skeleton type="text" />
-                  )}
-                </Typography>
-              </Box>
-
-              <Box className="metric bpo">
-                <Typography variant="h6" color="textSecondary">
-                  Backing per OHM
-                </Typography>
-                <Typography variant="h5">
-                  {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
-                </Typography>
-              </Box>
-
-              <Box className="metric index">
-                <Typography variant="h6" color="textSecondary">
-                  Current Index
-                  <InfoTooltip
-                    message={
-                      "The current index tracks the amount of sOHM accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
-                    }
-                  />
-                </Typography>
-                <Typography variant="h5">
-                  {currentIndex ? trim(currentIndex, 2) + " sOHM" : <Skeleton type="text" />}
-                </Typography>
-              </Box>
-            </Box>
-          </Paper>
-        </Box>
+        <Typography variant="h5" style={{ marginBottom: 20, fontWeight: "bold" }}>
+          Dashboard
+        </Typography>
+        <Grid container spacing={2} className="data-grid" style={{ marginBottom: "1rem" }}>
+          <Grid item lg={3} md={3} sm={12} xs={12}>
+            <Paper className="ohm-card">
+              <Typography variant="h6" color="textSecondary">
+                Market Cap
+              </Typography>
+              <Typography variant="h5">
+                {marketCap && formatCurrency(marketCap, 0)}
+                {!marketCap && <Skeleton type="text" />}
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item lg={3} md={3} sm={12} xs={12}>
+            <Paper className="ohm-card">
+              <Typography variant="h6" color="textSecondary">
+                Circulating Supply (total)
+              </Typography>
+              <Typography variant="h5">
+                {circSupply && totalSupply ? (
+                  parseInt(circSupply) + " / " + parseInt(totalSupply)
+                ) : (
+                  <Skeleton type="text" />
+                )}
+              </Typography>{" "}
+            </Paper>
+          </Grid>
+          <Grid item lg={3} md={3} sm={12} xs={12}>
+            <Paper className="ohm-card">
+              <Typography variant="h6" color="textSecondary">
+                Backing per OHM
+              </Typography>
+              <Typography variant="h5">
+                {backingPerOhm ? formatCurrency(backingPerOhm, 2) : <Skeleton type="text" />}
+              </Typography>{" "}
+            </Paper>
+          </Grid>
+          <Grid item lg={3} md={3} sm={12} xs={12}>
+            <Paper className="ohm-card">
+              <Typography variant="h6" color="textSecondary">
+                Current Index
+                <InfoTooltip
+                  message={
+                    "The current index tracks the amount of sSQUID accumulated since the beginning of staking. Basically, how much sOHM one would have if they staked and held a single OHM from day 1."
+                  }
+                />
+              </Typography>
+              <Typography variant="h5">
+                {currentIndex ? trim(currentIndex, 2) + " sSQUID" : <Skeleton type="text" />}
+              </Typography>{" "}
+            </Paper>
+          </Grid>
+        </Grid>
 
         <Zoom in={true}>
           <Grid container spacing={2} className="data-grid">
@@ -175,9 +154,9 @@ function TreasuryDashboard() {
                   type="area"
                   data={data}
                   dataKey={["totalValueLocked"]}
-                  stopColor={[["#768299", "#98B3E9"]]}
+                  stopColor={[["#7558C6", "rgba(255, 110, 214, 0.2)"]]}
                   headerText="Total Value Deposited"
-                  headerSubText={`${data && formatCurrency(data[0].totalValueLocked)}`}
+                  headerSubText={`${data && formatEth(data[0].totalValueLocked)}`}
                   bulletpointColors={bulletpoints.tvl}
                   itemNames={tooltipItems.tvl}
                   itemType={itemType.dollar}
@@ -192,15 +171,10 @@ function TreasuryDashboard() {
                 <Chart
                   type="stack"
                   data={data}
-                  dataKey={[
-                    "treasuryDaiMarketValue",
-                    "treasuryFraxMarketValue",
-                    "treasuryWETHMarketValue",
-                    "treasuryXsushiMarketValue",
-                  ]}
+                  dataKey={["treasuryDaiMarketValue", "treasuryFraxMarketValue"]}
                   stopColor={[
-                    ["#F5AC37", "#EA9276"],
-                    ["#768299", "#98B3E9"],
+                    ["#7558C6", "rgba(255, 110, 214, 0.2)"],
+                    ["#58BFC6", "rgba(110, 151, 255, 0.2)"],
                     ["#DC30EB", "#EA98F1"],
                     ["#8BFF4D", "#4C8C2A"],
                   ]}
@@ -223,8 +197,8 @@ function TreasuryDashboard() {
                   format="currency"
                   dataKey={["treasuryDaiRiskFreeValue", "treasuryFraxRiskFreeValue"]}
                   stopColor={[
-                    ["#F5AC37", "#EA9276"],
-                    ["#768299", "#98B3E9"],
+                    ["#7558C6", "rgba(255, 110, 214, 0.2)"],
+                    ["#58BFC6", "rgba(110, 151, 255, 0.2)"],
                     ["#000", "#fff"],
                     ["#000", "#fff"],
                   ]}
@@ -245,8 +219,8 @@ function TreasuryDashboard() {
                   type="area"
                   data={data}
                   dataKey={["treasuryOhmDaiPOL"]}
-                  stopColor={[["rgba(128, 204, 131, 1)", "rgba(128, 204, 131, 0)"]]}
-                  headerText="Protocol Owned Liquidity OHM-DAI"
+                  stopColor={[["#7558C6", "rgba(255, 110, 214, 0.2)"]]}
+                  headerText="Protocol Owned Liquidity SQUID-WETH"
                   headerSubText={`${data && trim(data[0].treasuryOhmDaiPOL, 2)}% `}
                   dataFormat="percent"
                   bulletpointColors={bulletpoints.pol}
@@ -283,8 +257,8 @@ function TreasuryDashboard() {
                   type="area"
                   data={staked}
                   dataKey={["staked"]}
-                  stopColor={[["#55EBC7", "#47ACEB"]]}
-                  headerText="OHM Staked"
+                  stopColor={[["#7558C6", "rgba(255, 110, 214, 0.2)"]]}
+                  headerText="SQUID Staked"
                   dataFormat="percent"
                   headerSubText={`${staked && trim(staked[0].staked, 2)}% `}
                   isStaked={true}

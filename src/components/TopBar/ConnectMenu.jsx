@@ -62,7 +62,7 @@ function ConnectMenu({ theme }) {
     >
       <Button
         className={buttonStyles}
-        variant="contained"
+        variant="outlined"
         color="secondary"
         size="large"
         style={pendingTransactions.length > 0 ? { color: primaryColor } : {}}

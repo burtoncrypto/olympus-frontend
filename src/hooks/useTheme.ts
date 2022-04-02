@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useTheme = (): [string, (e: KeyboardEvent) => void, boolean] => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const [mounted, setMounted] = useState(false);
 
   const setMode = (mode: string) => {
@@ -22,12 +22,6 @@ const useTheme = (): [string, (e: KeyboardEvent) => void, boolean] => {
   };
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem("theme");
-    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches && !localTheme
-      ? setMode("dark")
-      : localTheme
-      ? setTheme(localTheme)
-      : setMode("light");
     setMounted(true);
   }, []);
 

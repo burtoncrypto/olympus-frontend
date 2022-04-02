@@ -19,6 +19,7 @@
 .dapp-sidebar-inner {
   height: 100%;
   overflow: auto;
+  background: linear-gradient(180deg, #3a3437 0%, #282c31 35.42%, #26303e 67.19%, #212427 100%);
 }
 
 .branding-header {
@@ -60,7 +61,7 @@
 .dapp-menu-links {
   min-height: 35vh;
   display: flex;
-  align-items: center;
+  //align-items: center;
 }
 .dapp-nav a {
   margin-top: 0.7rem;
@@ -167,5 +168,13 @@
         display: none;
       }
     }
+  }
+}
+
+.MuiLink-root.active {
+  color: #7f7fd5 !important;
+  text-decoration: none !important;
+  path {
+    stroke: #7f7fd5 !important;
   }
 }
